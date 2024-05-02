@@ -1,5 +1,6 @@
 from flask import Flask, request,jsonify
 import joblib
+import numpy as np
 
 # load the model from disk
 model = joblib.load('model.pkl')
@@ -22,7 +23,8 @@ def prediction():
         h_region = house_details['region']
         h_city = house_details['city']
 
-        price = model.predict([h_type, h_size, h_bedrooms, h_bathrooms, h_floor, h_fur, h_rent, h_region, h_city])
+
+        price = model.predict(np.array([h_type, h_size, h_bedrooms, h_bathrooms, h_floor, h_fur, h_rent, h_region, h_city]))
         return jsonify(price)
 
     except Exception as e:
